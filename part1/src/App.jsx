@@ -13,17 +13,32 @@ const Statistics = ({ good, neutral, bad }) => {
         <p>No feedback given</p>
       ) : (
         <>
-          <p>good {good}</p>
-          <p>neutral {neutral}</p>
-          <p>bad {bad}</p>
-          <p>all {total}</p>
-          <p>average {average}</p>
-          <p>positive {positivePercentage} %</p>
+          <StatisticLine text="good" value={good}/>
+          <StatisticLine text="neutral" value={neutral}/>
+          <StatisticLine text="bad" value={bad}/>
+          <StatisticLine text="all" value={total}/>
+          <StatisticLine text="average" value={average}/>
+          <StatisticLine text="positive" value={positivePercentage}/>
         </>
       )}
     </>
     )
 }
+
+const Button = (props) => (
+  <button onClick={props.handleClick}>
+      {props.text}
+    </button>
+)
+
+// Componente StatisticLine para mostrar una única estadística
+const StatisticLine = ({ text, value }) => {
+  return (
+    <p>
+      {text} {value}
+    </p>
+  );
+};
 
 const App = () => {
   //guardar los clics de cada botón en su propio estado
@@ -31,14 +46,13 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
-  
 
   return (
     <div>
       <h1>give feedback</h1>
-      <button onClick={() => setGood(good + 1)}>good</button>
-      <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
-      <button onClick={() => setBad(bad + 1)}>bad</button>
+      <Button handleClick={()=>setGood(good + 1)} text="good"/>
+      <Button handleClick={()=>setNeutral(neutral + 1)} text="neutral"/>
+      <Button handleClick={()=>setBad(bad + 1)} text="bad"/>
       
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>

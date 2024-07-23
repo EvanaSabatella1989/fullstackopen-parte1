@@ -13,30 +13,51 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
-  //inicializo un array con ceros (almacenará los votos para cada anécdota):
-  const [votes, setVotes] =useState(Array(anecdotes.length).fill(0))
+  //initializes an array with zeros (will store the votes for each anecdote):
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
 
   const generateRandomIndex = () => {
     const randomIndex = Math.floor(Math.random() * anecdotes.length)
     //console.log(randomIndex)
     setSelected(randomIndex)
 }
-//función para guardar los votos:
+//Function to save votes:
   const voteAnecdote = () => {
-    //creo una copia del array votes
+    //creates a copy of the "votes" array
     const newVotes = [...votes]
-    //incremento el valor en la posición del indice seleccionado
+    //increments the value at the selected index position
     newVotes[selected] += 1
-    //actualizo el estado con el nuevo array
+    //update the state with the new array
     setVotes(newVotes)
   }  
+  //console.log(Math.max(...votes))
+
+  //Function to calculate the anecdote with the highest number of votes
+  const mostVotedAnecdote = () => {
+    //Find the maximum number of votes in the array
+    const maxVotes = Math.max(...votes)
+    //Find the index that contains those votes
+    const mostVotedIndex = votes.indexOf(maxVotes)
+    //Returns an object with the anecdote that contains that index and the number of votes found
+    return {
+        anecdote: anecdotes[mostVotedIndex],
+        votes: maxVotes
+    }
+  }
+
+  const mostVoted = mostVotedAnecdote()
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>has {votes[selected]} votes</p>
       <button onClick={voteAnecdote}>Vote</button>
       <button onClick={generateRandomIndex}>Next Anecdote</button>
+
+      <h2>Anecdote with most votes</h2>
+      <p>{mostVoted.anecdote}</p>
+      <p>has {mostVoted.votes} votes</p>
     </div>
   )
 }
